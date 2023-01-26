@@ -35,7 +35,6 @@ func (c *Client) Get(key []byte) (any, error) {
 	}
 
 	resp := &proto.GetResponse{}
-
 	var valLen int32
 	binary.Read(c.conn, binary.LittleEndian, &valLen)
 	resp.Value = make([]byte, valLen)
