@@ -42,8 +42,8 @@ func (c *Client) Get(key []byte) (any, error) {
 	return string(resp.Value), nil
 }
 
-func New() (*Client, error) {
-	conn, err := net.Dial("tcp", "localhost:8080")
+func New(listenAddr string) (*Client, error) {
+	conn, err := net.Dial("tcp", listenAddr)
 
 	if err != nil {
 		fmt.Printf("Unable to dial %v", err.Error())

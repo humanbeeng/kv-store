@@ -22,7 +22,7 @@ func main() {
 func InitClient() {
 	time.Sleep(time.Second * 2)
 
-	client, err := client.New()
+	client, err := client.New("localhost:8080")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
