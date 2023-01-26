@@ -40,7 +40,6 @@ func (c *Client) Get(key []byte) (any, error) {
 	binary.Read(c.conn, binary.LittleEndian, &valLen)
 	resp.Value = make([]byte, valLen)
 	binary.Read(c.conn, binary.LittleEndian, &resp.Value)
-
 	return string(resp.Value), nil
 }
 
