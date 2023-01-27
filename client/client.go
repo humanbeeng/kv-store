@@ -24,6 +24,10 @@ func (c *Client) Set(key []byte, value []byte) (any, error) {
 
 	binary.Read(c.conn, binary.LittleEndian, &status)
 
+	if status == 1 {
+		return nil, fmt.Errorf("unable to set %s", key)
+	}
+
 	return nil, err
 }
 
