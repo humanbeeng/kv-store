@@ -36,9 +36,14 @@ func (c *Client) Get(key []byte) (any, error) {
 
 	resp := &proto.GetResponse{}
 	var valLen int32
+	binary.Read(c.conn, binary.LittleEndian, &resp.Status)
 	binary.Read(c.conn, binary.LittleEndian, &valLen)
 	resp.Value = make([]byte, valLen)
 	binary.Read(c.conn, binary.LittleEndian, &resp.Value)
+
+	if resp.Status == 1 {
+		return nil, fmt.Errorf("no key found for %s", key)
+	}
 	return string(resp.Value), nil
 }
 
