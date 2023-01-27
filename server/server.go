@@ -88,9 +88,12 @@ func handleGetCommand(conn net.Conn) error {
 
 	value, err := cache.StringStore.Get(fmt.Sprint(cmdGet.Key))
 	if err != nil {
-		return err
+		resp.Status = 1
+		resp.Value = nil
+		conn.Write(resp.Bytes())
 	}
 
+	resp.Status = 0
 	resp.Value = []byte(value)
 
 	conn.Write(resp.Bytes())

@@ -29,7 +29,8 @@ type CommandSet struct {
 }
 
 type GetResponse struct {
-	Value []byte
+	Status byte
+	Value  []byte
 }
 
 type SetResponse struct {
@@ -79,6 +80,7 @@ func (cmdGet *CommandGet) Bytes() []byte {
 func (resp *GetResponse) Bytes() []byte {
 	buf := new(bytes.Buffer)
 
+	binary.Write(buf, binary.LittleEndian, resp.Status)
 	valLen := len(resp.Value)
 	binary.Write(buf, binary.LittleEndian, int32(valLen))
 	binary.Write(buf, binary.LittleEndian, resp.Value)
