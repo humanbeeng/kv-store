@@ -10,7 +10,7 @@ import (
 func main() {
 
 	var (
-		listenAddr = flag.String("address", ":3000", "Address for the server to listen on.")
+		listenAddr = flag.String("address", "3000", "Address for the server to listen on.")
 	)
 
 	flag.Parse()
