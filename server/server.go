@@ -53,7 +53,6 @@ func (s *Server) handleConnection(conn net.Conn) {
 				break
 			}
 			log.Printf("Invalid command : %v", err.Error())
-			break
 		}
 	}
 
@@ -89,8 +88,9 @@ func handleGetCommand(conn net.Conn) error {
 	value, err := cache.StringStore.Get(fmt.Sprint(cmdGet.Key))
 	if err != nil {
 		resp.Status = 1
-		resp.Value = nil
+		resp.Value = []byte("nf")
 		conn.Write(resp.Bytes())
+		return nil
 	}
 
 	resp.Status = 0
@@ -112,9 +112,9 @@ func handleSetCommand(conn net.Conn) error {
 	if err != nil {
 		resp.Status = 1
 		conn.Write(resp.Bytes())
+		return err
 	}
-	resp.Status = 1
-
+	resp.Status = 0
 	conn.Write(resp.Bytes())
 	return nil
 }
