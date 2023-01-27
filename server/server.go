@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 
+	"github.com/fatih/color"
 	"github.com/humanbeeng/kv-store/cache"
 	"github.com/humanbeeng/kv-store/proto"
 )
@@ -23,19 +24,20 @@ func NewServer(listenAddr string) *Server {
 	}
 }
 
-func (s *Server) Start() {
+func (s *Server) Start() error {
 	ln, err := net.Listen("tcp", s.ListenAddr)
 	if err != nil {
 		log.Fatalf("error listening: %v", err.Error())
 	}
 	defer ln.Close()
 
-	fmt.Println("Server listening on ", s.ListenAddr)
+	color.Blue("Server listening on %s", s.ListenAddr)
 
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
 			log.Fatalf("error accepting connection %v", err.Error())
+			return err
 		}
 		go s.handleConnection(conn)
 	}

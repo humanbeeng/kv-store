@@ -1,33 +1,23 @@
 package main
 
 import (
+	"flag"
 	"log"
-	"time"
 
-	"github.com/humanbeeng/kv-store/client"
 	"github.com/humanbeeng/kv-store/server"
 )
 
 func main() {
 
-	go func() {
-		InitClient()
-	}()
+	var (
+		listenAddr = flag.String("address", ":3000", "Address for the server to listen on.")
+	)
 
-	s := server.NewServer("localhost:8080")
-	s.Start()
+	flag.Parse()
 
-}
-
-func InitClient() {
-	time.Sleep(time.Second * 2)
-
-	client, err := client.New("localhost:8080")
+	s := server.NewServer(":" + *listenAddr)
+	err := s.Start()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	client.Set([]byte("hello"), []byte("there"))
-
-	time.Sleep(time.Millisecond * 500)
-	client.Get([]byte("hello"))
 }
